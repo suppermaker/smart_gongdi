@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "task_id": "task.crane-offline.001",
+  "goal": "Identify why crane.03 remains offline and propose a safe response",
+  "risk_ref": "risk.crane-offline.001",
+  "status": "investigating",
+  "created_at": "2026-10-28T10:26:00+08:00",
+  "graph_revision": 0,
+  "budgets": {
+    "max_model_calls": 20,
+    "max_tool_calls": 50,
+    "max_sub_agents": 4,
+    "max_graph_revisions": 20,
+    "timeout_seconds": 600,
+    "max_cost_usd": 1.5
+  },
+  "pending_human_request_id": null
+}

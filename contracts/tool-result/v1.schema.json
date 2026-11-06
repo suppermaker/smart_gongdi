@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TypedToolResultV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tool_call_id",
+    "tool_name",
+    "status",
+    "observed_at",
+    "source_version",
+    "completeness",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tool_call_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "tool_name": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "not_found",
+        "partial",
+        "transient_error",
+        "permanent_error",
+        "forbidden"
+      ]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "completeness": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "partial",
+        "complete_for_query"
+      ]
+    },
+    "payload": {},
+    "error": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

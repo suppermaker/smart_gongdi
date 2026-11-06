@@ -1,0 +1,27 @@
+create table action_proposals (
+    id bigserial primary key,
+    tenant_id varchar(120) not null,
+    project_id varchar(120) not null,
+    action_id varchar(160) not null,
+    task_id varchar(160) not null,
+    action_type varchar(160) not null,
+    level varchar(2) not null check (level in ('L0','L1','L2','L3')),
+    status varchar(40) not null,
+    reason text not null,
+    evidence_refs jsonb not null,
+    verification_criteria jsonb not null,
+    verification_window_seconds integer not null,
+    idempotency_key varchar(160) not null,
+    semantic_hash varchar(64) not null,
+    approved_by varchar(160),
+    approved_at timestamptz,
+    executed_at timestamptz,
+    observation jsonb,
+    closed_at timestamptz,
+    version bigint not null default 0,
+    created_at timestamptz not null,
+    updated_at timestamptz not null,
+    unique (tenant_id, project_id, action_id),
+    unique (tenant_id, project_id, task_id, idempotency_key)
+);
+create index action_task_idx on action_proposals (tenant_id, project_id, task_id);

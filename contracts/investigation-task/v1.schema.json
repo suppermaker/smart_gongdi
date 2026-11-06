@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InvestigationTaskV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "goal",
+    "risk_ref",
+    "status",
+    "created_at",
+    "graph_revision",
+    "budgets"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 5
+    },
+    "risk_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "created",
+        "investigating",
+        "awaiting_human",
+        "awaiting_approval",
+        "acting",
+        "verifying",
+        "completed",
+        "failed",
+        "escalated"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "graph_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "budgets": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "title": "TaskBudget",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_model_calls",
+        "max_tool_calls",
+        "max_sub_agents",
+        "max_graph_revisions",
+        "timeout_seconds"
+      ],
+      "properties": {
+        "max_model_calls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 200
+        },
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "max_sub_agents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "max_graph_revisions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "max_cost_usd": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "pending_human_request_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

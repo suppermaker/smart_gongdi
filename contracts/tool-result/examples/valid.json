@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "tool_call_id": "call.gateway.001",
+  "tool_name": "get-gateway-status",
+  "status": "ok",
+  "observed_at": "2026-10-28T10:31:00+08:00",
+  "source_version": "heartbeat-seq-88",
+  "completeness": "complete_for_query",
+  "payload": {
+    "gateway_id": "gateway.zone-a",
+    "heartbeat": "missing",
+    "last_seen": "2026-10-28T10:24:30+08:00"
+  }
+}

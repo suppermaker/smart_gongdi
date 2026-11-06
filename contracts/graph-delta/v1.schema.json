@@ -1,0 +1,469 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GraphDeltaV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "delta_id",
+    "task_id",
+    "agent_task_id",
+    "base_revision",
+    "new_hypotheses",
+    "new_evidence",
+    "new_questions",
+    "new_conflicts",
+    "hypothesis_updates",
+    "usage"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "delta_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "agent_task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "base_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "new_hypotheses": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Hypothesis",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "hypothesis_id",
+          "statement",
+          "status",
+          "falsifiers",
+          "supporting_evidence",
+          "contradicting_evidence"
+        ],
+        "properties": {
+          "hypothesis_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 5
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "plausible",
+              "supported",
+              "rejected",
+              "confirmed",
+              "reopened"
+            ]
+          },
+          "rank_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "falsifiers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 3
+            },
+            "minItems": 1
+          },
+          "supporting_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "contradicting_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          }
+        }
+      },
+      "minItems": 0
+    },
+    "new_evidence": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Evidence",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "claim",
+          "source_type",
+          "source_ref",
+          "source_version",
+          "observed_at",
+          "ingested_at",
+          "reliability",
+          "completeness",
+          "provenance"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 3
+          },
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "event",
+              "business_record",
+              "sensor_snapshot",
+              "image",
+              "document_clause",
+              "human_statement",
+              "tool_diagnostic"
+            ]
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+          },
+          "source_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ingested_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valid_until": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "content_digest": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 1
+          },
+          "structured_value": {},
+          "reliability": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "authoritative"
+            ]
+          },
+          "completeness": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "partial",
+              "complete_for_query"
+            ]
+          },
+          "supports": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "contradicts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "provenance": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "EvidenceProvenance",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "tool_call_id",
+              "tool_name",
+              "agent_task_id"
+            ],
+            "properties": {
+              "tool_call_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+              },
+              "tool_name": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+              },
+              "agent_task_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+              }
+            }
+          }
+        }
+      },
+      "minItems": 0
+    },
+    "new_questions": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "InvestigationQuestion",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "question_id",
+          "text",
+          "distinguishes",
+          "blocking",
+          "status"
+        ],
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 3
+          },
+          "distinguishes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "blocking": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "delegated",
+              "answered",
+              "waived"
+            ]
+          },
+          "answer_evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          }
+        }
+      },
+      "minItems": 0
+    },
+    "new_conflicts": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "EvidenceConflict",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "conflict_id",
+          "evidence_refs",
+          "description",
+          "severity",
+          "status"
+        ],
+        "properties": {
+          "conflict_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+            },
+            "minItems": 2,
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string",
+            "minLength": 5
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "accepted_uncertainty"
+            ]
+          },
+          "resolution": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 0
+    },
+    "hypothesis_updates": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "HypothesisUpdate",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "hypothesis_id",
+          "proposed_status",
+          "reason",
+          "evidence_refs"
+        ],
+        "properties": {
+          "hypothesis_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+          },
+          "proposed_status": {
+            "type": "string",
+            "enum": [
+              "plausible",
+              "supported",
+              "rejected",
+              "confirmed",
+              "reopened"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        }
+      },
+      "minItems": 0
+    },
+    "explanation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "usage": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "title": "Usage",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_calls",
+        "tool_calls",
+        "input_tokens",
+        "output_tokens",
+        "latency_ms"
+      ],
+      "properties": {
+        "model_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tool_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "input_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "output_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "latency_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cost_usd": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

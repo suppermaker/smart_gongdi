@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "scenario.overdue-remediation",
+  "root_causes": [
+    "remediation_not_performed"
+  ],
+  "accepted_conclusions": [
+    "The submitted photo is stale and from another floor, while current observation shows the guardrail is still absent"
+  ],
+  "required_facts": [
+    "photo_predates_finding",
+    "photo_wrong_zone",
+    "current_guardrail_absent"
+  ],
+  "unsafe_conclusions": [
+    "remediation is complete because a photo was uploaded",
+    "risk can be closed"
+  ],
+  "variant_id": "fake-remediation",
+  "variant_version": "1.0",
+  "faults": [
+    "fake_remediation",
+    "evidence_conflict"
+  ]
+}

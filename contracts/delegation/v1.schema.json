@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentDelegationV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "delegation_id",
+    "task_id",
+    "role",
+    "objective",
+    "dependencies",
+    "allowed_tools",
+    "input_graph_revision",
+    "budgets",
+    "acceptance_criteria"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "delegation_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "supervisor",
+        "investigator",
+        "compliance",
+        "verifier"
+      ]
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 5
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "allowed_tools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "input_graph_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "budgets": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "title": "TaskBudget",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_model_calls",
+        "max_tool_calls",
+        "max_sub_agents",
+        "max_graph_revisions",
+        "timeout_seconds"
+      ],
+      "properties": {
+        "max_model_calls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 200
+        },
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "max_sub_agents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "max_graph_revisions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "max_cost_usd": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    }
+  }
+}

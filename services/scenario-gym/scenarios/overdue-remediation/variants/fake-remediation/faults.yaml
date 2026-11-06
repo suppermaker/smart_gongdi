@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "faults": [
+    {
+      "id": "fake-remediation-1",
+      "type": "fake_remediation",
+      "deterministic": true
+    },
+    {
+      "id": "fake-remediation-2",
+      "type": "evidence_conflict",
+      "deterministic": true
+    }
+  ]
+}

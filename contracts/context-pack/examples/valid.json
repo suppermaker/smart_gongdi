@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "context_id": "ctx-task-001-r4-network",
+  "task_id": "task-001",
+  "agent_task_id": "route-4-network_diagnosis",
+  "graph_revision": 4,
+  "role": "investigator",
+  "verification_stage": null,
+  "objective": "Distinguish zone connectivity failure from local equipment failure",
+  "event_summary": {"event_type": "equipment.offline", "subject_type": "tower-crane", "zone": "zone-a"},
+  "risk_summary": {"risk_ref": "risk-001", "status": "INVESTIGATING", "criticality": "high"},
+  "active_hypotheses": [
+    {"hypothesis_id": "hyp-network", "claim": "Zone uplink failure", "state": "active", "support_count": 1, "contradiction_count": 0},
+    {"hypothesis_id": "hyp-local", "claim": "Local equipment failure", "state": "active", "support_count": 0, "contradiction_count": 1}
+  ],
+  "evidence_cards": [
+    {
+      "evidence_id": "ev-nearby-001",
+      "claim": "All twelve nearby devices are offline",
+      "relations": [{"relation": "SUPPORTS", "hypothesis_ref": "hyp-network"}, {"relation": "CONTRADICTS", "hypothesis_ref": "hyp-local"}],
+      "observed_at": "2026-10-28T10:26:00+08:00",
+      "freshness": "CURRENT",
+      "reliability": "HIGH",
+      "source_type": "sensor_snapshot",
+      "source_ref": "collector.zone-a",
+      "tool_call_id": "call-nearby-001",
+      "score": 0.95,
+      "mandatory": true
+    }
+  ],
+  "open_conflicts": [],
+  "unresolved_questions": [{"question_id": "question-gateway", "question": "Is the zone gateway uplink unavailable?", "required_capability": "network_diagnosis"}],
+  "action_context": [],
+  "allowed_capabilities": ["network_diagnosis"],
+  "allowed_tools": ["query-nearby-equipment", "get-gateway-status", "get-collector-health"],
+  "budget": {"max_model_calls": 1, "max_tool_calls": 3, "max_context_tokens": 4000, "remaining_cost_usd": 0.15},
+  "manifest": {
+    "context_policy_version": "context-policy.v1",
+    "prompt_version": "investigator.v2",
+    "included_node_ids": ["hyp-network", "hyp-local", "ev-nearby-001"],
+    "excluded_counts": {"expired": 1, "irrelevant": 4, "budget_trimmed": 0},
+    "estimated_tokens": 820,
+    "context_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+}

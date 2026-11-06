@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "context_id": "ctx-task-remediation-r5-closure",
+  "task_id": "task-remediation",
+  "agent_task_id": "route-5-closure_verification",
+  "graph_revision": 5,
+  "role": "verifier",
+  "verification_stage": "closure",
+  "objective": "Verify that current observation satisfies closure criteria",
+  "event_summary": {"event_type": "remediation.deadline.exceeded", "subject_type": "safety-finding"},
+  "risk_summary": {"risk_ref": "risk-remediation", "status": "REMEDIATING"},
+  "active_hypotheses": [{"hypothesis_id": "hyp-not-performed", "claim": "Required guardrail remediation was not performed", "state": "active", "support_count": 1, "contradiction_count": 1}],
+  "evidence_cards": [{"evidence_id": "ev-current", "claim": "Current observation shows no guardrail", "relations": [{"relation": "SUPPORTS", "hypothesis_ref": "hyp-not-performed"}], "observed_at": "2026-10-28T14:20:00+08:00", "freshness": "CURRENT", "reliability": "HIGH", "source_type": "image", "source_ref": "camera.floor-8", "tool_call_id": "call-current", "score": 1.0, "mandatory": true}],
+  "open_conflicts": [{"conflict_id": "conf-remediation", "severity": "critical", "status": "open", "evidence_refs": ["ev-current", "ev-submission"]}],
+  "unresolved_questions": [],
+  "action_context": [{"action_id": "action-guardrail", "status": "EXECUTED", "approval_status": "APPROVED", "closure_criteria": ["guardrail_present=true"]}],
+  "allowed_capabilities": ["closure_verification"],
+  "allowed_tools": ["graph_read", "list_risk_evidence", "read_action", "current_observation"],
+  "budget": {"max_model_calls": 1, "max_tool_calls": 4, "max_context_tokens": 4500},
+  "manifest": {"context_policy_version": "context-policy.v1", "prompt_version": "verifier.v2", "included_node_ids": ["hyp-not-performed", "ev-current", "conf-remediation", "action-guardrail"], "excluded_counts": {"expired": 1, "irrelevant": 1, "budget_trimmed": 0}, "estimated_tokens": 790, "context_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+}

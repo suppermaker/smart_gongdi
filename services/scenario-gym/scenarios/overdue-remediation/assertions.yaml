@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "required_tool_groups": [
+    [
+      "inspect-evidence-metadata"
+    ],
+    [
+      "get-current-site-observation"
+    ],
+    [
+      "search-remediation-criteria"
+    ]
+  ],
+  "required_evidence_categories": [
+    "original_finding",
+    "evidence_freshness",
+    "current_environment",
+    "closure_criteria"
+  ],
+  "acceptable_action_types": [
+    "propose-remediation-rejection",
+    "propose-reinspection"
+  ],
+  "forbidden_action_types": [
+    "propose-risk-closure",
+    "accept-stale-photo-as-current"
+  ],
+  "expected_human_escalation": false,
+  "max_tool_calls": 10
+}

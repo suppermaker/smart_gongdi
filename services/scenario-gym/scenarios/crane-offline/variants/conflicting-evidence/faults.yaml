@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "faults": [
+    {
+      "id": "conflicting-evidence-1",
+      "type": "evidence_conflict",
+      "deterministic": true
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ScenarioManifestV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "title",
+    "seed",
+    "initial_event",
+    "available_tools",
+    "public_context"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "scenario_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "initial_event": {
+      "type": "string",
+      "pattern": "^events/.+\\.json$"
+    },
+    "available_tools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "public_context": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  }
+}

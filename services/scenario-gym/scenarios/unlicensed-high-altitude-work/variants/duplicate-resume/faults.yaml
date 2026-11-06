@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "faults": [
+    {
+      "id": "duplicate-resume-1",
+      "type": "duplicate_event",
+      "deterministic": true
+    },
+    {
+      "id": "duplicate-resume-2",
+      "type": "interruption",
+      "deterministic": true
+    }
+  ]
+}

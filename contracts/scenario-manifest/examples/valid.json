@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "scenario.crane-offline",
+  "title": "Crane offline root-cause investigation",
+  "seed": 1002,
+  "initial_event": "events/initial.json",
+  "available_tools": [
+    "get-equipment-status",
+    "get-gateway-status",
+    "query-nearby-equipment",
+    "get-maintenance-plan",
+    "get-collector-health"
+  ],
+  "public_context": {
+    "project_name": "Demo Worksite",
+    "zone": "zone-a"
+  },
+  "tags": [
+    "equipment",
+    "parallel-investigation"
+  ]
+}

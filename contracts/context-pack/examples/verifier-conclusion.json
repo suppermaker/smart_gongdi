@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "context_id": "ctx-task-001-r4-conclusion",
+  "task_id": "task-001",
+  "agent_task_id": "route-4-conclusion_verification",
+  "graph_revision": 4,
+  "role": "verifier",
+  "verification_stage": "conclusion",
+  "objective": "Verify conclusion evidence and unresolved counterexamples",
+  "event_summary": {"event_type": "equipment.offline", "zone": "zone-a"},
+  "risk_summary": {"risk_ref": "risk-001", "status": "INVESTIGATING"},
+  "active_hypotheses": [{"hypothesis_id": "hyp-network", "claim": "Zone uplink failure", "state": "supported", "support_count": 2, "contradiction_count": 0}],
+  "evidence_cards": [{"evidence_id": "ev-gateway", "claim": "Gateway uplink packet loss is 100%", "relations": [{"relation": "SUPPORTS", "hypothesis_ref": "hyp-network"}], "observed_at": "2026-10-28T10:27:00+08:00", "freshness": "CURRENT", "reliability": "HIGH", "source_type": "tool_diagnostic", "source_ref": "gateway.zone-a", "tool_call_id": "call-gateway", "score": 0.98, "mandatory": true}],
+  "open_conflicts": [],
+  "unresolved_questions": [],
+  "action_context": [],
+  "allowed_capabilities": ["conclusion_verification"],
+  "allowed_tools": ["graph_read", "list_risk_evidence"],
+  "budget": {"max_model_calls": 1, "max_tool_calls": 2, "max_context_tokens": 4000},
+  "manifest": {"context_policy_version": "context-policy.v1", "prompt_version": "verifier.v2", "included_node_ids": ["hyp-network", "ev-gateway"], "excluded_counts": {"expired": 1, "irrelevant": 2, "budget_trimmed": 0}, "estimated_tokens": 620, "context_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}
+}

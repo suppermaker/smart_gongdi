@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sitepilot.local/contracts/context-pack/v1.schema.json",
+  "title": "RevisionScopedContextPackV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "context_id", "task_id", "agent_task_id", "graph_revision",
+    "role", "objective", "event_summary", "risk_summary", "active_hypotheses",
+    "evidence_cards", "open_conflicts", "unresolved_questions", "allowed_capabilities",
+    "allowed_tools", "budget", "manifest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "context_id": {"type": "string", "minLength": 1, "maxLength": 200},
+    "task_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "agent_task_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "graph_revision": {"type": "integer", "minimum": 0},
+    "role": {"type": "string", "enum": ["supervisor", "investigator", "compliance", "verifier"]},
+    "verification_stage": {"type": ["string", "null"], "enum": ["plan", "conclusion", "closure", null]},
+    "objective": {"type": "string", "minLength": 1},
+    "event_summary": {"type": "object", "additionalProperties": true},
+    "risk_summary": {"type": "object", "additionalProperties": true},
+    "active_hypotheses": {"type": "array", "items": {"$ref": "#/$defs/hypothesis"}},
+    "evidence_cards": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "open_conflicts": {"type": "array", "items": {"$ref": "#/$defs/conflict"}},
+    "unresolved_questions": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "action_context": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "allowed_capabilities": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "allowed_tools": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_model_calls", "max_tool_calls", "max_context_tokens"],
+      "properties": {
+        "max_model_calls": {"type": "integer", "minimum": 0},
+        "max_tool_calls": {"type": "integer", "minimum": 0},
+        "max_context_tokens": {"type": "integer", "minimum": 256},
+        "remaining_cost_usd": {"type": "number", "minimum": 0}
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_policy_version", "prompt_version", "included_node_ids",
+        "excluded_counts", "estimated_tokens", "context_digest"
+      ],
+      "properties": {
+        "context_policy_version": {"type": "string", "minLength": 1},
+        "prompt_version": {"type": "string", "minLength": 1},
+        "included_node_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "excluded_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["expired", "irrelevant", "budget_trimmed"],
+          "properties": {
+            "expired": {"type": "integer", "minimum": 0},
+            "irrelevant": {"type": "integer", "minimum": 0},
+            "budget_trimmed": {"type": "integer", "minimum": 0}
+          }
+        },
+        "estimated_tokens": {"type": "integer", "minimum": 0},
+        "context_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    }
+  },
+  "$defs": {
+    "hypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hypothesis_id", "claim", "state", "support_count", "contradiction_count"],
+      "properties": {
+        "hypothesis_id": {"type": "string", "minLength": 1},
+        "claim": {"type": "string", "minLength": 1},
+        "state": {"type": "string", "minLength": 1},
+        "support_count": {"type": "integer", "minimum": 0},
+        "contradiction_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "evidence_id", "claim", "relations", "observed_at", "freshness",
+        "reliability", "source_type", "source_ref", "tool_call_id"
+      ],
+      "properties": {
+        "evidence_id": {"type": "string", "minLength": 1},
+        "claim": {"type": "string", "minLength": 1},
+        "relations": {"type": "array", "items": {"type": "object"}},
+        "observed_at": {"type": "string", "format": "date-time"},
+        "freshness": {"type": "string", "enum": ["CURRENT", "NEAR_EXPIRY", "EXPIRED"]},
+        "reliability": {"type": "string", "minLength": 1},
+        "source_type": {"type": "string", "minLength": 1},
+        "source_ref": {"type": "string", "minLength": 1},
+        "tool_call_id": {"type": "string", "minLength": 1},
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "mandatory": {"type": "boolean"}
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["conflict_id", "severity", "status", "evidence_refs"],
+      "properties": {
+        "conflict_id": {"type": "string", "minLength": 1},
+        "severity": {"type": "string", "minLength": 1},
+        "status": {"type": "string", "minLength": 1},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

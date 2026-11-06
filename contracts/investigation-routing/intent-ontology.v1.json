@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "capabilities": {
+    "identity_resolution": {"role": "investigator", "tools": ["get-identity-review"], "depends_on": []},
+    "certificate_verification": {"role": "investigator", "tools": ["get-worker-certificates"], "depends_on": ["identity_resolution"]},
+    "permit_validation": {"role": "investigator", "tools": ["get-work-permit"], "depends_on": ["identity_resolution"]},
+    "equipment_observation": {"role": "investigator", "tools": ["get-equipment-status", "query-nearby-equipment"], "depends_on": []},
+    "equipment_diagnosis": {"role": "investigator", "tools": ["device_diagnostic"], "depends_on": ["equipment_observation"]},
+    "network_diagnosis": {"role": "investigator", "tools": ["query-nearby-equipment", "get-gateway-status", "get-collector-health", "network_diagnostic"], "depends_on": []},
+    "maintenance_lookup": {"role": "investigator", "tools": ["get-maintenance-plan", "maintenance_lookup"], "depends_on": []},
+    "evidence_validation": {"role": "investigator", "tools": ["inspect-evidence-metadata", "list_risk_evidence"], "depends_on": []},
+    "regulation_retrieval": {"role": "compliance", "tools": ["policy_lookup", "search-regulation-clauses", "search-equipment-safety-clauses", "search-remediation-criteria"], "depends_on": []},
+    "remediation_validation": {"role": "compliance", "tools": ["search-remediation-criteria", "list_risk_evidence"], "depends_on": ["evidence_validation"]},
+    "current_observation": {"role": "investigator", "tools": ["get-current-site-observation"], "depends_on": []},
+    "plan_verification": {"role": "verifier", "tools": ["graph_read", "list_risk_evidence"], "depends_on": []},
+    "conclusion_verification": {"role": "verifier", "tools": ["graph_read", "list_risk_evidence"], "depends_on": []},
+    "closure_verification": {"role": "verifier", "tools": ["graph_read", "list_risk_evidence", "read_action", "current_observation"], "depends_on": ["current_observation"]},
+    "human_clarification": {"role": "supervisor", "tools": ["propose_human_question"], "depends_on": []}
+  }
+}

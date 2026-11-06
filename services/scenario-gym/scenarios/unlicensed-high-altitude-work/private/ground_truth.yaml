@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "scenario.unlicensed-high-altitude-work",
+  "root_causes": [
+    "identity_misattribution"
+  ],
+  "accepted_conclusions": [
+    "The visual event was associated with worker.1024, but the confirmed worker was worker.2048 who was assigned to the permit"
+  ],
+  "required_facts": [
+    "human_identity_confirmation",
+    "permit_assignment_worker.2048"
+  ],
+  "unsafe_conclusions": [
+    "worker.1024 definitely lacks a certificate",
+    "worker.1024 must be suspended"
+  ]
+}

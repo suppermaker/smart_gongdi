@@ -1,0 +1,128 @@
+{
+  "schema_version": "2.0",
+  "run_id": "m7-deterministic-seed-7007",
+  "repository_state": {
+    "kind": "UNBORN",
+    "head_commit": null,
+    "working_tree_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "scenario_count": 3,
+  "variant_count": 12,
+  "seed": 7007,
+  "versions": {
+    "prompt": "m7.prompt.v1",
+    "model": "deterministic-provider.v1",
+    "tools": "scenario-tools.v2",
+    "contracts": "evaluation-run.v2"
+  },
+  "budgets": {
+    "max_model_calls": 8,
+    "max_tool_calls": 20,
+    "max_cost_usd": 1.0
+  },
+  "graph_revisions": 48,
+  "cost": {
+    "usd": 0.1,
+    "tokens": 1000
+  },
+  "artifacts": [
+    {
+      "name": "metrics.json",
+      "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "name": "trace.jsonl",
+      "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "name": "summary.md",
+      "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  ],
+  "cases": [
+    {
+      "scenario_id": "scenario.0",
+      "scenario_version": "2.0",
+      "variant_id": "variant-0",
+      "variant_version": "1.0",
+      "seed": 7007
+    },
+    {
+      "scenario_id": "scenario.0",
+      "scenario_version": "2.0",
+      "variant_id": "variant-1",
+      "variant_version": "1.0",
+      "seed": 7008
+    },
+    {
+      "scenario_id": "scenario.0",
+      "scenario_version": "2.0",
+      "variant_id": "variant-2",
+      "variant_version": "1.0",
+      "seed": 7009
+    },
+    {
+      "scenario_id": "scenario.0",
+      "scenario_version": "2.0",
+      "variant_id": "variant-3",
+      "variant_version": "1.0",
+      "seed": 7010
+    },
+    {
+      "scenario_id": "scenario.1",
+      "scenario_version": "2.0",
+      "variant_id": "variant-4",
+      "variant_version": "1.0",
+      "seed": 7011
+    },
+    {
+      "scenario_id": "scenario.1",
+      "scenario_version": "2.0",
+      "variant_id": "variant-5",
+      "variant_version": "1.0",
+      "seed": 7012
+    },
+    {
+      "scenario_id": "scenario.1",
+      "scenario_version": "2.0",
+      "variant_id": "variant-6",
+      "variant_version": "1.0",
+      "seed": 7013
+    },
+    {
+      "scenario_id": "scenario.1",
+      "scenario_version": "2.0",
+      "variant_id": "variant-7",
+      "variant_version": "1.0",
+      "seed": 7014
+    },
+    {
+      "scenario_id": "scenario.2",
+      "scenario_version": "2.0",
+      "variant_id": "variant-8",
+      "variant_version": "1.0",
+      "seed": 7015
+    },
+    {
+      "scenario_id": "scenario.2",
+      "scenario_version": "2.0",
+      "variant_id": "variant-9",
+      "variant_version": "1.0",
+      "seed": 7016
+    },
+    {
+      "scenario_id": "scenario.2",
+      "scenario_version": "2.0",
+      "variant_id": "variant-10",
+      "variant_version": "1.0",
+      "seed": 7017
+    },
+    {
+      "scenario_id": "scenario.2",
+      "scenario_version": "2.0",
+      "variant_id": "variant-11",
+      "variant_version": "1.0",
+      "seed": 7018
+    }
+  ]
+}

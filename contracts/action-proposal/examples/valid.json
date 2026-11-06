@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "action_id": "action.network-inspection.001",
+  "task_id": "task.crane-offline.001",
+  "action_type": "request-network-inspection",
+  "level": "L2",
+  "reason": "Two independent observations support a zone network outage",
+  "evidence_refs": [
+    "ev.nearby-offline",
+    "ev.gateway-heartbeat"
+  ],
+  "requires_approval": true,
+  "verification_criteria": [
+    "gateway heartbeat is healthy",
+    "crane.03 remains online for ten minutes"
+  ],
+  "verification_window_seconds": 600,
+  "idempotency_key": "idem.network-inspection.001"
+}

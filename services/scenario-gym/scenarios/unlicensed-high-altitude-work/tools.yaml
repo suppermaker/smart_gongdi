@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "tools": [
+    {
+      "name": "get-worker-profile",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "worker_id": "worker.1024"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.worker-profile.001",
+            "tool_name": "get-worker-profile",
+            "status": "ok",
+            "observed_at": "2026-10-28T08:41:00+08:00",
+            "source_version": "profile-v12",
+            "completeness": "complete_for_query",
+            "payload": {
+              "worker_id": "worker.1024",
+              "trade": "electrician",
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get-worker-certificates",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "worker_id": "worker.1024"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.worker-certificates.001",
+            "tool_name": "get-worker-certificates",
+            "status": "not_found",
+            "observed_at": "2026-10-28T08:41:10+08:00",
+            "source_version": "certificate-index-v31",
+            "completeness": "partial",
+            "payload": {
+              "records": [],
+              "coverage_note": "Mobile-issued certificates may arrive with a synchronization delay of up to 30 minutes"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get-work-permit",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "zone": "zone-b"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.work-permit.001",
+            "tool_name": "get-work-permit",
+            "status": "ok",
+            "observed_at": "2026-10-28T08:41:20+08:00",
+            "source_version": "permit-v8",
+            "completeness": "complete_for_query",
+            "payload": {
+              "permit_id": "permit.8801",
+              "required_certificate": "high-altitude-operation",
+              "assigned_worker_ids": [
+                "worker.2048"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get-identity-review",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "event_id": "evt.high-altitude.001"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.identity-review.001",
+            "tool_name": "get-identity-review",
+            "status": "partial",
+            "observed_at": "2026-10-28T08:41:30+08:00",
+            "source_version": "vision-review-v2",
+            "completeness": "partial",
+            "payload": {
+              "candidate_worker_ids": [
+                {
+                  "worker_id": "worker.1024",
+                  "confidence": 0.71
+                },
+                {
+                  "worker_id": "worker.2048",
+                  "confidence": 0.68
+                }
+              ],
+              "blocking_ambiguity": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "search-regulation-clauses",
+      "roles": [
+        "compliance",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "topic": "high-altitude-work"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.regulation.001",
+            "tool_name": "search-regulation-clauses",
+            "status": "ok",
+            "observed_at": "2026-10-28T08:42:00+08:00",
+            "source_version": "regulation-index-v5",
+            "completeness": "complete_for_query",
+            "payload": {
+              "clauses": [
+                {
+                  "standard": "demo-safety-standard-2026",
+                  "clause": "4.2.1",
+                  "quote": "High-altitude operators must hold a valid certificate and be assigned to the active work permit."
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "request-human-identity-confirmation",
+      "roles": [
+        "supervisor"
+      ],
+      "side_effect": true,
+      "action_level": "L2",
+      "responses": [
+        {
+          "match": {
+            "event_id": "evt.high-altitude.001"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.human-identity.001",
+            "tool_name": "request-human-identity-confirmation",
+            "status": "ok",
+            "observed_at": "2026-10-28T08:43:00+08:00",
+            "source_version": "human-signal-v1",
+            "completeness": "complete_for_query",
+            "payload": {
+              "confirmed_worker_id": "worker.2048",
+              "confirmed_by": "safety-manager.demo"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

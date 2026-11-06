@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "faults": [
+    {
+      "id": "identity-ambiguity-1",
+      "type": "identity_ambiguity",
+      "deterministic": true
+    },
+    {
+      "id": "identity-ambiguity-2",
+      "type": "evidence_conflict",
+      "deterministic": true
+    }
+  ]
+}

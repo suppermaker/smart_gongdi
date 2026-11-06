@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "context_id": "ctx-task-worker-r2-compliance",
+  "task_id": "task-worker",
+  "agent_task_id": "route-2-regulation_retrieval",
+  "graph_revision": 2,
+  "role": "compliance",
+  "verification_stage": null,
+  "objective": "Determine the applicable qualification and permit requirements",
+  "event_summary": {"event_type": "work.high-altitude.started", "subject_type": "worker", "identity_status": "confirmed"},
+  "risk_summary": {"risk_ref": "risk-worker", "status": "INVESTIGATING"},
+  "active_hypotheses": [{"hypothesis_id": "hyp-unlicensed", "claim": "Confirmed worker lacks required qualification", "state": "active", "support_count": 1, "contradiction_count": 0}],
+  "evidence_cards": [{"evidence_id": "ev-cert", "claim": "No valid high-altitude certificate was found", "relations": [{"relation": "SUPPORTS", "hypothesis_ref": "hyp-unlicensed"}], "observed_at": "2026-10-28T08:42:00+08:00", "freshness": "CURRENT", "reliability": "HIGH", "source_type": "business_record", "source_ref": "certificate-service", "tool_call_id": "call-cert", "score": 0.92, "mandatory": true}],
+  "open_conflicts": [],
+  "unresolved_questions": [],
+  "action_context": [],
+  "allowed_capabilities": ["regulation_retrieval"],
+  "allowed_tools": ["search-regulation-clauses"],
+  "budget": {"max_model_calls": 1, "max_tool_calls": 1, "max_context_tokens": 3500},
+  "manifest": {"context_policy_version": "context-policy.v1", "prompt_version": "compliance.v2", "included_node_ids": ["hyp-unlicensed", "ev-cert"], "excluded_counts": {"expired": 0, "irrelevant": 3, "budget_trimmed": 0}, "estimated_tokens": 610, "context_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
+}

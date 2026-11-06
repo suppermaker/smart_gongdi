@@ -1,0 +1,7 @@
+schema_version: '2.0'
+variant_version: '1.0'
+variant_id: normal
+title_suffix: normal
+seed: 100
+tags:
+  - normal

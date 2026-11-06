@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "faults": [
+    {
+      "id": "interrupted-recovery-1",
+      "type": "interruption",
+      "deterministic": true
+    },
+    {
+      "id": "interrupted-recovery-2",
+      "type": "tool_timeout",
+      "deterministic": true
+    }
+  ]
+}

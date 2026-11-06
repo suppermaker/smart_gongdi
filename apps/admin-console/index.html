@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SitePilot Operations Desk</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <span class="eyebrow">SITEPILOT / CONTROL PLANE</span>
+      <h1>Operations Desk</h1>
+    </div>
+    <div class="header-meta">
+      <span id="namespace" class="namespace"></span>
+      <span id="connection" role="status">connecting</span>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Console sections">
+    <button role="tab" id="tab-risk" class="tab" aria-selected="true" aria-controls="view-risk" data-view="risk">Risk investigation</button>
+    <button role="tab" id="tab-platform" class="tab" aria-selected="false" aria-controls="view-platform" data-view="platform">Contract platform</button>
+  </nav>
+
+  <main>
+    <section id="view-risk" class="view" role="tabpanel" aria-labelledby="tab-risk">
+    <aside>
+      <h2>Active risks</h2>
+      <div id="risk-list" aria-live="polite"></div>
+    </aside>
+    <section id="workspace">
+      <div class="empty" id="empty">Select a risk to inspect the investigation.</div>
+      <div id="detail" hidden>
+        <div class="risk-heading">
+          <div><span id="risk-status"></span><h2 id="risk-title"></h2></div>
+          <button id="refresh">Refresh</button>
+        </div>
+        <div class="grid">
+          <article class="wide"><h3>Investigation graph</h3><div id="investigation-graph"></div></article>
+          <article><h3>Support / rebuttal evidence</h3><div id="evidence"></div></article>
+          <article><h3>Conflicts</h3><div id="conflicts"></div></article>
+          <article class="wide"><h3>Audit timeline</h3><div id="timeline"></div></article>
+          <article><h3>Pending approval</h3><div id="pending-approval"></div></article>
+          <article><h3>Final result</h3><div id="final-result"></div></article>
+        </div>
+      </div>
+    </section>
+    </section>
+
+    <section id="view-platform" class="view" role="tabpanel" aria-labelledby="tab-platform" hidden>
+    <aside class="platform-rail">
+      <section class="panel">
+        <h2>Platform tasks</h2>
+        <p class="muted small">Tasks created from this console are kept in local storage for this tenant/project; the control plane exposes no task list endpoint.</p>
+        <div id="platform-task-list" aria-live="polite"></div>
+        <form id="open-task-form" class="inline-form">
+          <label for="open-task-id" class="sr-only">Open task by id</label>
+          <input id="open-task-id" name="taskId" placeholder="task-…" autocomplete="off" required>
+          <button type="submit">Open</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>New platform task</h2>
+        <form id="create-task-form" novalidate>
+          <label for="create-input">Request</label>
+          <textarea id="create-input" name="userInput" rows="4" placeholder="根据规范分析本月高风险隐患数量" required></textarea>
+
+          <label for="create-output">Requested output</label>
+          <input id="create-output" name="requestedOutput" list="output-hints" placeholder="answer / review / report / ocr" required>
+          <datalist id="output-hints">
+            <option value="answer"></option>
+            <option value="review"></option>
+            <option value="report"></option>
+            <option value="ocr"></option>
+          </datalist>
+
+          <label for="create-attachments">Attachment refs (comma separated, optional)</label>
+          <input id="create-attachments" name="attachmentRefs" placeholder="doc-a, scan-1" autocomplete="off">
+
+          <label for="create-conversation">Conversation id (optional)</label>
+          <input id="create-conversation" name="conversationId" placeholder="conv-1" autocomplete="off">
+
+          <p class="hint" id="create-taskid-hint"></p>
+          <button type="submit" id="create-submit">Create task</button>
+          <p class="form-message" id="create-message" role="status" aria-live="polite"></p>
+          <p class="hint">Intent is classified server-side from request plus requested output; the console never sets it.</p>
+        </form>
+      </section>
+    </aside>
+
+    <section id="platform-workspace">
+      <div class="empty" id="platform-empty">Create or open a platform task to inspect intent, plan, status and result.</div>
+
+      <div id="platform-detail" hidden>
+        <div class="risk-heading">
+          <div>
+            <span id="pt-task-id"></span>
+            <h2 id="pt-summary"></h2>
+            <div class="badges">
+              <span class="badge" id="pt-intent"></span>
+              <span class="badge" id="pt-status"></span>
+              <span class="badge" id="pt-version"></span>
+            </div>
+          </div>
+          <button id="pt-refresh" type="button">Refresh</button>
+        </div>
+
+        <div class="grid">
+          <article class="wide">
+            <h3>Request</h3>
+            <div id="pt-request"></div>
+          </article>
+
+          <article class="wide">
+            <h3>Intent &amp; DAG plan</h3>
+            <div id="pt-plan"></div>
+          </article>
+
+          <article class="wide">
+            <h3>Execute</h3>
+            <form id="pt-execute-form" novalidate>
+              <div id="pt-execute-fields" class="field-grid"></div>
+              <div class="actions">
+                <button type="submit" id="pt-execute-submit">Execute task</button>
+                <span class="hint" id="pt-execute-note"></span>
+              </div>
+              <p class="form-message" id="pt-execute-message" role="status" aria-live="polite"></p>
+            </form>
+          </article>
+
+          <article class="wide">
+            <h3>Result</h3>
+            <div id="pt-result"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

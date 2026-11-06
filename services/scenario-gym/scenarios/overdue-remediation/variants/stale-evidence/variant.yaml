@@ -1,0 +1,7 @@
+schema_version: '2.0'
+variant_version: '1.0'
+variant_id: stale-evidence
+title_suffix: stale evidence
+seed: 101
+tags:
+  - adversarial

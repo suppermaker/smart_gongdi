@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run.crane-offline.001",
+  "scenario_id": "scenario.crane-offline",
+  "scenario_version": "1.0",
+  "seed": 1002,
+  "repository_commit": "abcdef1",
+  "runtime": {
+    "mode": "baseline",
+    "model": "fake-model"
+  },
+  "metrics": {
+    "root_cause_correct": true,
+    "tool_calls": 4,
+    "cost_usd": 0.02
+  },
+  "artifacts": [
+    {
+      "name": "trace.jsonl",
+      "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "faults": [
+    {
+      "id": "stale-evidence-1",
+      "type": "stale_evidence",
+      "deterministic": true
+    }
+  ]
+}

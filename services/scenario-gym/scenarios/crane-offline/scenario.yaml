@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "scenario.crane-offline",
+  "title": "Investigate why crane.03 remains offline",
+  "seed": 1002,
+  "initial_event": "events/initial.json",
+  "available_tools": [
+    "get-equipment-status",
+    "query-nearby-equipment",
+    "get-gateway-status",
+    "get-maintenance-plan",
+    "get-collector-health",
+    "search-equipment-safety-clauses"
+  ],
+  "public_context": {
+    "project_name": "Demo Worksite",
+    "zone": "zone-a",
+    "critical_equipment": true
+  },
+  "tags": [
+    "equipment",
+    "parallel-investigation",
+    "conflicting-evidence"
+  ]
+}

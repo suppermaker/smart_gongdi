@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "scenario.overdue-remediation",
+  "title": "Verify an overdue guardrail remediation",
+  "seed": 1003,
+  "initial_event": "events/initial.json",
+  "available_tools": [
+    "get-original-finding",
+    "get-remediation-submission",
+    "inspect-evidence-metadata",
+    "get-current-site-observation",
+    "search-remediation-criteria",
+    "propose-remediation-rejection"
+  ],
+  "public_context": {
+    "project_name": "Demo Worksite",
+    "zone": "building-a-floor-8",
+    "closure_requires_current_environment_observation": true
+  },
+  "tags": [
+    "remediation",
+    "closure-verification",
+    "stale-evidence",
+    "temporal-wait"
+  ]
+}

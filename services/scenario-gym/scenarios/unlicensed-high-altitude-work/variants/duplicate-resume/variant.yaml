@@ -1,0 +1,7 @@
+schema_version: '2.0'
+variant_version: '1.0'
+variant_id: duplicate-resume
+title_suffix: duplicate resume
+seed: 103
+tags:
+  - adversarial

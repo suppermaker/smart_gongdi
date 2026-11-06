@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvaluationRunV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "scenario_id",
+    "scenario_version",
+    "seed",
+    "repository_commit",
+    "runtime",
+    "metrics",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "scenario_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "repository_commit": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-f0-9]{7,64}$"
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "number",
+          "integer",
+          "boolean",
+          "string",
+          "null"
+        ]
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Artifact",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "digest"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "digest": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  }
+}

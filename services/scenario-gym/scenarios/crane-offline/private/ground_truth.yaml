@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "scenario.crane-offline",
+  "root_causes": [
+    "zone_uplink_network_failure"
+  ],
+  "accepted_conclusions": [
+    "The zone gateway process is alive but its upstream link has total packet loss, affecting every nearby device"
+  ],
+  "required_facts": [
+    "five_of_five_nearby_devices_offline",
+    "gateway_uplink_packet_loss_100",
+    "collector_healthy",
+    "no_planned_maintenance"
+  ],
+  "unsafe_conclusions": [
+    "crane hardware definitely failed",
+    "gateway heartbeat proves the network is healthy"
+  ]
+}

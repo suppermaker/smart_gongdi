@@ -1,0 +1,77 @@
+name: sitepilot-demo
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment: {POSTGRES_USER: sitepilot, POSTGRES_PASSWORD: "${SITEPILOT_DB_PASSWORD:?SITEPILOT_DB_PASSWORD is required}", POSTGRES_DB: sitepilot}
+    ports: ["${SITEPILOT_POSTGRES_PORT:-15433}:5432"]
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U sitepilot -d sitepilot"], interval: 3s, timeout: 3s, retries: 30}
+    volumes: ["sitepilot-data:/var/lib/postgresql/data"]
+  temporal-postgres:
+    image: postgres:16-alpine
+    environment: {POSTGRES_USER: temporal, POSTGRES_PASSWORD: "${TEMPORAL_DB_PASSWORD:?TEMPORAL_DB_PASSWORD is required}", POSTGRES_DB: temporal}
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U temporal"], interval: 3s, timeout: 3s, retries: 30}
+    volumes: ["temporal-data:/var/lib/postgresql/data"]
+  temporal:
+    image: temporalio/auto-setup:1.28.1
+    depends_on: {temporal-postgres: {condition: service_healthy}}
+    environment: {DB: postgres12, DB_PORT: 5432, POSTGRES_USER: temporal, POSTGRES_PWD: "${TEMPORAL_DB_PASSWORD:?TEMPORAL_DB_PASSWORD is required}", POSTGRES_SEEDS: temporal-postgres}
+    ports: ["${SITEPILOT_TEMPORAL_PORT:-17233}:7233"]
+    healthcheck: {test: ["CMD", "temporal", "operator", "cluster", "health", "--address", "temporal:7233"], interval: 3s, timeout: 5s, retries: 40}
+  temporal-ui:
+    image: temporalio/ui:2.42.1
+    depends_on: {temporal: {condition: service_healthy}}
+    environment: {TEMPORAL_ADDRESS: temporal:7233}
+    ports: ["${SITEPILOT_TEMPORAL_UI_PORT:-18233}:8080"]
+  control-plane:
+    build: {context: ../../services/control-plane}
+    depends_on: {postgres: {condition: service_healthy}, otel-collector: {condition: service_started}}
+    environment:
+      DATABASE_URL: "jdbc:postgresql://postgres:5432/sitepilot"
+      DATABASE_USER: sitepilot
+      DATABASE_PASSWORD: "${SITEPILOT_DB_PASSWORD:?SITEPILOT_DB_PASSWORD is required}"
+      SITEPILOT_MCP_HMAC_SECRET: "${SITEPILOT_MCP_HMAC_SECRET:?SITEPILOT_MCP_HMAC_SECRET is required}"
+      SITEPILOT_MCP_ALLOWED_HOSTS: "control-plane:8080,localhost:18080,127.0.0.1:18080"
+      SITEPILOT_OTEL_OTLP_ENDPOINT: "http://otel-collector:4317"
+    ports: ["${SITEPILOT_CONTROL_PORT:-18080}:8080"]
+    healthcheck: {test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health || exit 1"], interval: 5s, timeout: 3s, retries: 40}
+  agent-runtime:
+    build: {context: ../../services/agent-runtime}
+    depends_on: {temporal: {condition: service_healthy}, control-plane: {condition: service_healthy}}
+    environment:
+      TEMPORAL_ADDRESS: "temporal:7233"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4317"
+      SITEPILOT_ROUTER_PROVIDER: "${SITEPILOT_ROUTER_PROVIDER:-deterministic}"
+      SITEPILOT_ROUTING_POLICY_VERSION: "${SITEPILOT_ROUTING_POLICY_VERSION:-routing-policy.v1}"
+      SITEPILOT_ROUTING_TIMEOUT_SECONDS: "${SITEPILOT_ROUTING_TIMEOUT_SECONDS:-5}"
+      JEV_BASE_URL: "${JEV_BASE_URL:-https://api.typesafe.ai}"
+      JEV_MODEL: "${JEV_MODEL:-jev-1.14.0}"
+      JEV_API_KEY: "${JEV_API_KEY:-}"
+      SITEPILOT_MCP_TOKEN: "${SITEPILOT_MCP_TOKEN:-}"
+      SITEPILOT_MCP_TOKEN_INVESTIGATOR: "${SITEPILOT_MCP_TOKEN_INVESTIGATOR:-}"
+      SITEPILOT_MCP_TOKEN_COMPLIANCE: "${SITEPILOT_MCP_TOKEN_COMPLIANCE:-}"
+      SITEPILOT_MCP_TOKEN_VERIFIER: "${SITEPILOT_MCP_TOKEN_VERIFIER:-}"
+      SITEPILOT_MCP_TOKEN_SUPERVISOR: "${SITEPILOT_MCP_TOKEN_SUPERVISOR:-}"
+      SITEPILOT_CONTEXT_POLICY_VERSION: "${SITEPILOT_CONTEXT_POLICY_VERSION:-context-policy.v1}"
+      SITEPILOT_CONTROL_PLANE_URL: "${SITEPILOT_CONTROL_PLANE_URL:-http://control-plane:8080}"
+    healthcheck: {test: ["CMD-SHELL", "python -c 'import sitepilot_agent_runtime'"], interval: 10s, timeout: 5s, retries: 10}
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.112.0
+    command: ["--config=/etc/otelcol/config.yml"]
+    volumes: ["./otel-collector.yml:/etc/otelcol/config.yml:ro"]
+    ports: ["${SITEPILOT_OTLP_GRPC_PORT:-14317}:4317"]
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
+    volumes: ["./prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
+    ports: ["${SITEPILOT_PROMETHEUS_PORT:-19090}:9090"]
+    depends_on: {control-plane: {condition: service_healthy}}
+  grafana:
+    image: grafana/grafana:11.3.0
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:?GRAFANA_ADMIN_PASSWORD is required}"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports: ["${SITEPILOT_GRAFANA_PORT:-13001}:3000"]
+    depends_on: [prometheus]
+volumes: {sitepilot-data: {}, temporal-data: {}}

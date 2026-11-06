@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sitepilot.local/contracts/context-pack/v2.schema.json",
+  "title": "RevisionScopedContextPackV2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "context_id",
+    "task_id",
+    "agent_task_id",
+    "graph_revision",
+    "role",
+    "objective",
+    "context_phase",
+    "context_mode",
+    "parent_context",
+    "event_summary",
+    "risk_summary",
+    "active_hypotheses",
+    "evidence_cards",
+    "evidence_handles",
+    "open_conflicts",
+    "unresolved_questions",
+    "reasoning_frontier",
+    "delta",
+    "allowed_capabilities",
+    "allowed_tools",
+    "budget",
+    "manifest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "context_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "agent_task_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "graph_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "supervisor",
+        "investigator",
+        "compliance",
+        "verifier"
+      ]
+    },
+    "verification_stage": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "plan",
+        "conclusion",
+        "closure",
+        null
+      ]
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 1
+    },
+    "context_phase": {
+      "type": "string",
+      "enum": [
+        "EXPLORATION",
+        "CONFLICT_RESOLUTION",
+        "CONCLUSION",
+        "CLOSURE"
+      ]
+    },
+    "context_mode": {
+      "type": "string",
+      "enum": [
+        "FULL",
+        "DELTA"
+      ]
+    },
+    "parent_context": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "context_id",
+            "context_digest",
+            "graph_revision"
+          ],
+          "properties": {
+            "context_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "context_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "graph_revision": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "event_summary": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "risk_summary": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "active_hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence_cards": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence_handles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "detail_tool",
+          "source_digest"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "detail_tool": {
+            "const": "get_evidence_detail"
+          },
+          "source_digest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "open_conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "action_context": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "reasoning_frontier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hypothesis_ids",
+        "question_ids",
+        "critical_conflict_ids",
+        "unmet_completion_conditions"
+      ],
+      "properties": {
+        "hypothesis_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "question_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "critical_conflict_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "unmet_completion_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "delta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "added_node_ids",
+        "updated_node_ids",
+        "removed_node_ids",
+        "expired_node_ids"
+      ],
+      "properties": {
+        "added_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "updated_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "removed_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "expired_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "allowed_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "allowed_tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_policy_version",
+        "prompt_version",
+        "included_node_ids",
+        "excluded_counts",
+        "selection_reasons",
+        "token_allocation",
+        "estimated_tokens",
+        "context_digest"
+      ],
+      "properties": {
+        "context_policy_version": {
+          "const": "context-policy.v2"
+        },
+        "prompt_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "included_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "excluded_counts": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "selection_reasons": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        },
+        "token_allocation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "task",
+            "reasoning_frontier",
+            "counterevidence",
+            "supporting_evidence",
+            "background"
+          ],
+          "properties": {
+            "task": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "reasoning_frontier": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "counterevidence": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "supporting_evidence": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "background": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "estimated_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "context_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "context_mode": {
+            "const": "FULL"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "parent_context": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "context_mode": {
+            "const": "DELTA"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "parent_context": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
+}

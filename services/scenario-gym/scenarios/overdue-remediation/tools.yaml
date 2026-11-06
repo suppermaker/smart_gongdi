@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "tools": [
+    {
+      "name": "get-original-finding",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "finding_id": "finding.guardrail.77"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.finding.001",
+            "tool_name": "get-original-finding",
+            "status": "ok",
+            "observed_at": "2026-10-28T14:01:00+08:00",
+            "source_version": "finding-v3",
+            "completeness": "complete_for_query",
+            "payload": {
+              "finding": "Opening lacks a compliant guardrail",
+              "zone": "building-a-floor-8",
+              "opened_at": "2026-10-27T09:00:00+08:00"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get-remediation-submission",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "finding_id": "finding.guardrail.77"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.submission.001",
+            "tool_name": "get-remediation-submission",
+            "status": "ok",
+            "observed_at": "2026-10-28T14:01:10+08:00",
+            "source_version": "submission-v2",
+            "completeness": "complete_for_query",
+            "payload": {
+              "text": "Guardrail installed",
+              "object_ref": "object.remediation-photo.77",
+              "submitted_at": "2026-10-28T13:40:00+08:00"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "inspect-evidence-metadata",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "object_ref": "object.remediation-photo.77"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.metadata.001",
+            "tool_name": "inspect-evidence-metadata",
+            "status": "ok",
+            "observed_at": "2026-10-28T14:01:20+08:00",
+            "source_version": "object-meta-v1",
+            "completeness": "complete_for_query",
+            "payload": {
+              "captured_at": "2026-10-20T11:00:00+08:00",
+              "zone": "building-a-floor-3",
+              "content_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "is_current_for_finding": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get-current-site-observation",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "zone": "building-a-floor-8"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.site-observation.001",
+            "tool_name": "get-current-site-observation",
+            "status": "ok",
+            "observed_at": "2026-10-28T14:02:00+08:00",
+            "source_version": "observation-v9",
+            "completeness": "complete_for_query",
+            "payload": {
+              "guardrail_present": false,
+              "observed_at": "2026-10-28T14:01:55+08:00",
+              "observer": "camera.floor8.02"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "search-remediation-criteria",
+      "roles": [
+        "compliance",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "finding_type": "missing-guardrail"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.criteria.001",
+            "tool_name": "search-remediation-criteria",
+            "status": "ok",
+            "observed_at": "2026-10-28T14:02:10+08:00",
+            "source_version": "criteria-v6",
+            "completeness": "complete_for_query",
+            "payload": {
+              "criteria": [
+                "A compliant guardrail is present at the original location",
+                "Verification evidence is captured after the finding and from the same zone"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "propose-remediation-rejection",
+      "roles": [
+        "supervisor"
+      ],
+      "side_effect": true,
+      "action_level": "L1",
+      "responses": [
+        {
+          "match": {
+            "finding_id": "finding.guardrail.77"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.reject-proposal.001",
+            "tool_name": "propose-remediation-rejection",
+            "status": "ok",
+            "observed_at": "2026-10-28T14:03:00+08:00",
+            "source_version": "proposal-v1",
+            "completeness": "complete_for_query",
+            "payload": {
+              "proposal_id": "proposal.reject.77",
+              "status": "draft"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

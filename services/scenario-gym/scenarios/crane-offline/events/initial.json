@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "event_id": "evt.crane-offline.001",
+  "event_type": "equipment.offline",
+  "subject": {
+    "type": "tower-crane",
+    "id": "crane.03",
+    "display_name": "Tower Crane 03"
+  },
+  "occurred_at": "2026-10-28T10:25:00+08:00",
+  "ingested_at": "2026-10-28T10:25:03+08:00",
+  "source": {
+    "source_type": "sensor",
+    "source_ref": "collector.zone-a",
+    "source_version": "sequence-8891"
+  },
+  "attributes": {
+    "offline_duration_seconds": 300,
+    "zone": "zone-a"
+  },
+  "correlation_id": "corr.crane-offline.001",
+  "aggregate_version": 7
+}

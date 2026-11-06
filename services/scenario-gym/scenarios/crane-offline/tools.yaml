@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0",
+  "tools": [
+    {
+      "name": "get-equipment-status",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "equipment_id": "crane.03"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.equipment.001",
+            "tool_name": "get-equipment-status",
+            "status": "ok",
+            "observed_at": "2026-10-28T10:30:00+08:00",
+            "source_version": "equipment-seq-91",
+            "completeness": "complete_for_query",
+            "payload": {
+              "status": "offline",
+              "last_telemetry_at": "2026-10-28T10:24:31+08:00"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "query-nearby-equipment",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "zone": "zone-a"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.nearby.001",
+            "tool_name": "query-nearby-equipment",
+            "status": "ok",
+            "observed_at": "2026-10-28T10:30:05+08:00",
+            "source_version": "zone-snapshot-122",
+            "completeness": "complete_for_query",
+            "payload": {
+              "total": 5,
+              "offline": 5,
+              "equipment_ids": [
+                "crane.03",
+                "lift.01",
+                "camera.05",
+                "sensor.17",
+                "gate.02"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get-gateway-status",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "zone": "zone-a"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.gateway.001",
+            "tool_name": "get-gateway-status",
+            "status": "ok",
+            "observed_at": "2026-10-28T10:30:10+08:00",
+            "source_version": "gateway-seq-88",
+            "completeness": "complete_for_query",
+            "payload": {
+              "gateway_id": "gateway.zone-a",
+              "application_heartbeat": "healthy",
+              "uplink_packet_loss_percent": 100,
+              "diagnostic_note": "Local process heartbeat does not prove upstream connectivity"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get-maintenance-plan",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "equipment_id": "crane.03"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.maintenance.001",
+            "tool_name": "get-maintenance-plan",
+            "status": "not_found",
+            "observed_at": "2026-10-28T10:30:15+08:00",
+            "source_version": "maintenance-plan-v44",
+            "completeness": "complete_for_query",
+            "payload": {
+              "records": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get-collector-health",
+      "roles": [
+        "investigator",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "collector_id": "collector.zone-a"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.collector.001",
+            "tool_name": "get-collector-health",
+            "status": "ok",
+            "observed_at": "2026-10-28T10:30:20+08:00",
+            "source_version": "collector-build-17",
+            "completeness": "complete_for_query",
+            "payload": {
+              "process": "healthy",
+              "queue_backlog": 0,
+              "last_publish_at": "2026-10-28T10:30:19+08:00"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "search-equipment-safety-clauses",
+      "roles": [
+        "compliance",
+        "verifier"
+      ],
+      "side_effect": false,
+      "responses": [
+        {
+          "match": {
+            "equipment_type": "tower-crane"
+          },
+          "result": {
+            "schema_version": "1.0",
+            "tool_call_id": "call.equipment-clause.001",
+            "tool_name": "search-equipment-safety-clauses",
+            "status": "ok",
+            "observed_at": "2026-10-28T10:31:00+08:00",
+            "source_version": "regulation-index-v5",
+            "completeness": "complete_for_query",
+            "payload": {
+              "clauses": [
+                {
+                  "standard": "demo-equipment-standard-2026",
+                  "clause": "7.3",
+                  "quote": "Loss of remote monitoring requires an on-site safety inspection before continued operation."
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

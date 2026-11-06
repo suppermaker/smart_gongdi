@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "route.unknown.001",
+  "task_id": "task.unknown.001",
+  "graph_revision": 0,
+  "policy_version": "routing-policy.v1",
+  "provider": "fallback",
+  "model_version": "deterministic-fallback-v1",
+  "input_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "primary_intent": "unknown",
+  "primary_confidence": 0.36,
+  "intent_probabilities": {"unknown": 0.64, "generic_investigation": 0.36},
+  "capabilities": [{"capability": "human_clarification", "probability": 0.86, "disposition": "REQUIRED", "supporting_fact_refs": ["event:event_type"]}],
+  "human_probability": 0.86,
+  "unknown_probability": 0.64,
+  "urgency_score": 1.0,
+  "route_disposition": "HUMAN_CLARIFICATION",
+  "reason_codes": ["UNKNOWN_INTENT", "HUMAN_INPUT_REQUIRED"],
+  "created_at": "2026-10-29T17:35:00+08:00"
+}

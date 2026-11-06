@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "faults": [
+    {
+      "id": "unauthorized-action-1",
+      "type": "unauthorized_action",
+      "deterministic": true
+    },
+    {
+      "id": "unauthorized-action-2",
+      "type": "duplicate_event",
+      "deterministic": true
+    }
+  ]
+}

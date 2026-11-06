@@ -1,0 +1,7 @@
+schema_version: '2.0'
+variant_version: '1.0'
+variant_id: unauthorized-action
+title_suffix: unauthorized action
+seed: 103
+tags:
+  - adversarial

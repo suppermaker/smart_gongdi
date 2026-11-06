@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "delta_id": "delta.network.001",
+  "task_id": "task.crane-offline.001",
+  "agent_task_id": "agent.network.001",
+  "base_revision": 0,
+  "new_hypotheses": [],
+  "new_evidence": [
+    {
+      "evidence_id": "ev.nearby-offline",
+      "claim": "Four nearby devices are offline in the same interval",
+      "source_type": "sensor_snapshot",
+      "source_ref": "snapshot.zone-a.1028",
+      "source_version": "7",
+      "observed_at": "2026-10-28T10:30:00+08:00",
+      "ingested_at": "2026-10-28T10:30:02+08:00",
+      "valid_until": "2026-10-28T10:35:00+08:00",
+      "content_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "structured_value": {
+        "offline_devices": 5
+      },
+      "reliability": "high",
+      "completeness": "complete_for_query",
+      "supports": [
+        "hyp.network-failure"
+      ],
+      "contradicts": [],
+      "provenance": {
+        "tool_call_id": "call.nearby.001",
+        "tool_name": "query-nearby-equipment",
+        "agent_task_id": "agent.network.001"
+      }
+    }
+  ],
+  "new_questions": [],
+  "new_conflicts": [],
+  "hypothesis_updates": [
+    {
+      "hypothesis_id": "hyp.network-failure",
+      "proposed_status": "supported",
+      "reason": "Multiple nearby devices share the outage",
+      "evidence_refs": [
+        "ev.nearby-offline"
+      ]
+    }
+  ],
+  "explanation": "The observation favors a shared infrastructure cause.",
+  "usage": {
+    "model_calls": 1,
+    "tool_calls": 1,
+    "input_tokens": 800,
+    "output_tokens": 220,
+    "latency_ms": 4200,
+    "cost_usd": 0.01
+  }
+}

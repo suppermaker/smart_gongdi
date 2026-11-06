@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "delegation_id": "delegation.network.001",
+  "task_id": "task.crane-offline.001",
+  "role": "investigator",
+  "objective": "Check zone-a gateway and nearby equipment state",
+  "dependencies": [],
+  "allowed_tools": [
+    "get-gateway-status",
+    "query-nearby-equipment"
+  ],
+  "input_graph_revision": 0,
+  "budgets": {
+    "max_model_calls": 3,
+    "max_tool_calls": 5,
+    "max_sub_agents": 0,
+    "max_graph_revisions": 3,
+    "timeout_seconds": 90,
+    "max_cost_usd": 0.2
+  },
+  "acceptance_criteria": [
+    "Return evidence for both gateway and nearby equipment",
+    "State source completeness"
+  ]
+}

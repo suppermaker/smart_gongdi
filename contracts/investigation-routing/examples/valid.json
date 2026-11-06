@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "route.crane.001",
+  "task_id": "task.crane.001",
+  "graph_revision": 0,
+  "policy_version": "routing-policy.v1",
+  "provider": "deterministic",
+  "model_version": "fixture-v1",
+  "input_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "primary_intent": "zone_connectivity_failure",
+  "primary_confidence": 0.82,
+  "intent_probabilities": {"zone_connectivity_failure": 0.82, "equipment_local_failure": 0.13, "unknown": 0.05},
+  "capabilities": [
+    {"capability": "network_diagnosis", "probability": 0.91, "disposition": "REQUIRED", "supporting_fact_refs": ["event:event_type", "event:zone"]},
+    {"capability": "equipment_observation", "probability": 0.72, "disposition": "OPTIONAL_IF_BUDGET", "supporting_fact_refs": ["event:subject_type"]},
+    {"capability": "conclusion_verification", "probability": 1.0, "disposition": "REQUIRED", "supporting_fact_refs": ["policy:conclusion-verifier"]}
+  ],
+  "human_probability": 0.08,
+  "unknown_probability": 0.05,
+  "urgency_score": 1.8,
+  "route_disposition": "AUTO_ROUTE",
+  "reason_codes": ["MULTI_LABEL_ROUTE", "CONCLUSION_VERIFIER_REQUIRED"],
+  "created_at": "2026-10-29T17:35:00+08:00"
+}

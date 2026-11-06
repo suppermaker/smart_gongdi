@@ -1,0 +1,48 @@
+name: sitepilot-temporal
+services:
+  temporal-postgresql:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: temporal
+      POSTGRES_PASSWORD: "${TEMPORAL_DB_PASSWORD:?TEMPORAL_DB_PASSWORD is required}"
+      POSTGRES_DB: temporal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U temporal"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - temporal-postgresql-data:/var/lib/postgresql/data
+
+  temporal:
+    image: temporalio/auto-setup:1.28.1
+    depends_on:
+      temporal-postgresql:
+        condition: service_healthy
+    environment:
+      DB: postgres12
+      DB_PORT: 5432
+      POSTGRES_USER: temporal
+      POSTGRES_PWD: "${TEMPORAL_DB_PASSWORD:?TEMPORAL_DB_PASSWORD is required}"
+      POSTGRES_SEEDS: temporal-postgresql
+    ports:
+      - "17233:7233"
+    healthcheck:
+      test: ["CMD", "temporal", "operator", "cluster", "health", "--address", "temporal:7233"]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+
+  temporal-ui:
+    image: temporalio/ui:2.42.1
+    depends_on:
+      temporal:
+        condition: service_healthy
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CORS_ORIGINS: http://localhost:3000
+    ports:
+      - "18233:8080"
+
+volumes:
+  temporal-postgresql-data:

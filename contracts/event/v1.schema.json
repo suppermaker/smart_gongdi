@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NormalizedWorksiteEventV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "event_type",
+    "subject",
+    "occurred_at",
+    "ingested_at",
+    "source",
+    "attributes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "event_type": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "subject": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "title": "Subject",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+        },
+        "display_name": {
+          "type": "string"
+        }
+      }
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ingested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "title": "SourceProvenance",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_type",
+        "source_ref",
+        "source_version"
+      ],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "simulator",
+            "business_service",
+            "sensor",
+            "camera_analysis",
+            "document",
+            "human"
+          ]
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+        },
+        "source_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9._:-]{2,127}$"
+    },
+    "aggregate_version": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

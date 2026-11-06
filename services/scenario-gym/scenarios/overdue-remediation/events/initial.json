@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "event_id": "evt.remediation-overdue.001",
+  "event_type": "remediation.deadline.exceeded",
+  "subject": {
+    "type": "safety-finding",
+    "id": "finding.guardrail.77",
+    "display_name": "Missing guardrail at opening 77"
+  },
+  "occurred_at": "2026-10-28T14:00:00+08:00",
+  "ingested_at": "2026-10-28T14:00:02+08:00",
+  "source": {
+    "source_type": "business_service",
+    "source_ref": "remediation-service",
+    "source_version": "event-seq-405"
+  },
+  "attributes": {
+    "assigned_team": "contractor.alpha",
+    "deadline": "2026-10-28T12:00:00+08:00",
+    "zone": "building-a-floor-8"
+  },
+  "correlation_id": "corr.remediation-overdue.001",
+  "aggregate_version": 4
+}

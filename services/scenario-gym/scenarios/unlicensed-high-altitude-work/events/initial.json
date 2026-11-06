@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "event_id": "evt.high-altitude.001",
+  "event_type": "work.high-altitude.started",
+  "subject": {
+    "type": "worker",
+    "id": "worker.1024",
+    "display_name": "Worker 1024"
+  },
+  "occurred_at": "2026-10-28T08:40:00+08:00",
+  "ingested_at": "2026-10-28T08:40:02+08:00",
+  "source": {
+    "source_type": "camera_analysis",
+    "source_ref": "camera.zone-b.02",
+    "source_version": "frame-seq-5581"
+  },
+  "attributes": {
+    "zone": "zone-b",
+    "work_type": "high-altitude",
+    "identity_confidence": 0.71
+  },
+  "correlation_id": "corr.high-altitude.001",
+  "aggregate_version": 1
+}

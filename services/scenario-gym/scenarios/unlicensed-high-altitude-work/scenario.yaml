@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "scenario.unlicensed-high-altitude-work",
+  "title": "Investigate a suspected unlicensed high-altitude worker",
+  "seed": 1001,
+  "initial_event": "events/initial.json",
+  "available_tools": [
+    "get-worker-profile",
+    "get-worker-certificates",
+    "get-work-permit",
+    "get-identity-review",
+    "search-regulation-clauses",
+    "request-human-identity-confirmation"
+  ],
+  "public_context": {
+    "project_name": "Demo Worksite",
+    "zone": "zone-b",
+    "policy": "Critical suspension proposals require human approval"
+  },
+  "tags": [
+    "worker",
+    "identity-ambiguity",
+    "compliance",
+    "human-in-loop"
+  ]
+}

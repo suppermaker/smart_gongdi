@@ -1,0 +1,101 @@
+cases:
+  - id: network-noise
+    role: investigator
+    budget_tokens: 400
+    changed_node_ids: [ev-local-counter]
+    nodes:
+      - {id: hyp-network, role: common, required: true, score: 1.0, tokens: 80}
+      - {id: ev-nearby, role: investigator, required: true, score: 0.95, tokens: 120}
+      - {id: ev-local-counter, role: investigator, required: true, contradiction: true, detail_required: true, score: 0.35, tokens: 120}
+      - {id: duplicate-network-support, role: investigator, irrelevant: true, score: 0.9, tokens: 200}
+      - {id: worker-certificate, role: compliance, irrelevant: true, score: 0.8, tokens: 180}
+  - id: critical-conflict
+    role: verifier
+    budget_tokens: 500
+    changed_node_ids: [conflict-critical]
+    nodes:
+      - {id: hyp-root, role: common, required: true, score: 1.0, tokens: 80}
+      - {id: conflict-critical, role: verifier, required: true, critical_conflict: true, score: 0.2, tokens: 130}
+      - {id: supporting-evidence, role: verifier, required: true, score: 0.9, tokens: 120}
+      - {id: unrelated-action, role: supervisor, irrelevant: true, score: 0.9, tokens: 170}
+  - id: expired-photo
+    role: verifier
+    stage: closure
+    closure: true
+    budget_tokens: 500
+    changed_node_ids: [current-observation]
+    nodes:
+      - {id: old-photo, role: verifier, expired: true, irrelevant: true, score: 0.95, tokens: 130}
+      - {id: current-observation, role: verifier, required: true, current_observation: true, score: 1.0, tokens: 130}
+      - {id: closure-criteria, role: verifier, required: true, score: 0.9, tokens: 100}
+  - id: identity-before-certificate
+    role: investigator
+    budget_tokens: 480
+    nodes:
+      - {id: identity-review, role: investigator, required: true, score: 1.0, tokens: 120}
+      - {id: ambiguous-face, role: investigator, required: true, contradiction: true, score: 0.4, tokens: 120}
+      - {id: regulation-text, role: compliance, irrelevant: true, score: 0.9, tokens: 180}
+  - id: compliance-scope
+    role: compliance
+    budget_tokens: 480
+    nodes:
+      - {id: confirmed-fact, role: common, required: true, score: 1.0, tokens: 100}
+      - {id: applicable-clause, role: compliance, required: true, score: 0.9, tokens: 140}
+      - {id: device-debug, role: investigator, irrelevant: true, score: 0.95, tokens: 180}
+  - id: conclusion-counterexample
+    role: verifier
+    stage: conclusion
+    budget_tokens: 400
+    changed_node_ids: [counterexample]
+    nodes:
+      - {id: final-hypothesis, role: common, required: true, score: 1.0, tokens: 80}
+      - {id: support-main, role: verifier, required: true, score: 0.95, tokens: 120}
+      - {id: counterexample, role: verifier, required: true, contradiction: true, score: 0.1, tokens: 120}
+      - {id: duplicate-support, role: verifier, irrelevant: true, score: 0.9, tokens: 160}
+  - id: budget-trimming
+    role: investigator
+    budget_tokens: 400
+    nodes:
+      - {id: required-a, role: investigator, required: true, score: 1.0, tokens: 100}
+      - {id: required-b, role: investigator, required: true, score: 0.9, tokens: 100}
+      - {id: optional-high, role: investigator, score: 0.8, tokens: 100}
+      - {id: optional-low, role: investigator, irrelevant: true, score: 0.2, tokens: 160}
+  - id: stale-vs-current
+    role: investigator
+    budget_tokens: 450
+    nodes:
+      - {id: stale-gateway, role: investigator, expired: true, irrelevant: true, score: 1.0, tokens: 120}
+      - {id: current-gateway, role: investigator, required: true, score: 0.9, tokens: 120}
+      - {id: gateway-hypothesis, role: common, required: true, score: 1.0, tokens: 80}
+  - id: prompt-injection-data
+    role: investigator
+    budget_tokens: 450
+    nodes:
+      - {id: safe-structured-field, role: investigator, required: true, score: 1.0, tokens: 100}
+      - {id: injected-free-text, role: common, irrelevant: true, score: 0.3, tokens: 180}
+      - {id: network-hypothesis, role: common, required: true, score: 0.9, tokens: 80}
+  - id: cross-tenant
+    role: investigator
+    budget_tokens: 450
+    nodes:
+      - {id: own-evidence, role: investigator, required: true, tenant: tenant-a, score: 1.0, tokens: 120}
+      - {id: foreign-evidence, role: investigator, tenant: tenant-b, irrelevant: true, score: 1.0, tokens: 120}
+      - {id: own-hypothesis, role: common, required: true, tenant: tenant-a, score: 0.9, tokens: 80}
+  - id: closure-critical-conflict
+    role: verifier
+    stage: closure
+    closure: true
+    budget_tokens: 520
+    changed_node_ids: [current-safe-observation]
+    nodes:
+      - {id: current-safe-observation, role: verifier, required: true, current_observation: true, score: 1.0, tokens: 120}
+      - {id: open-critical-conflict, role: verifier, required: true, critical_conflict: true, score: 0.2, tokens: 120}
+      - {id: execution-log, role: supervisor, irrelevant: true, score: 0.95, tokens: 160}
+  - id: recent-history-misses-old-counter
+    role: verifier
+    stage: conclusion
+    budget_tokens: 500
+    nodes:
+      - {id: recent-support, role: verifier, required: true, recent: true, score: 1.0, tokens: 120}
+      - {id: older-counterexample, role: verifier, required: true, contradiction: true, recent: false, score: 0.2, tokens: 120}
+      - {id: conclusion-hypothesis, role: common, required: true, recent: true, score: 0.9, tokens: 80}

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvaluationRunV2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "repository_state",
+    "scenario_count",
+    "variant_count",
+    "seed",
+    "cases",
+    "versions",
+    "budgets",
+    "graph_revisions",
+    "cost",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "head_commit",
+        "working_tree_digest"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "UNBORN",
+            "COMMIT"
+          ]
+        },
+        "head_commit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{7,64}$"
+        },
+        "working_tree_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "UNBORN"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "head_commit": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "COMMIT"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "head_commit": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "scenario_count": {
+      "type": "integer",
+      "minimum": 3
+    },
+    "variant_count": {
+      "type": "integer",
+      "minimum": 12
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "versions": {
+      "type": "object",
+      "required": [
+        "prompt",
+        "model",
+        "tools",
+        "contracts"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "number",
+          "integer"
+        ]
+      }
+    },
+    "graph_revisions": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "cost": {
+      "type": "object",
+      "required": [
+        "usd",
+        "tokens"
+      ],
+      "properties": {
+        "usd": {
+          "type": "number",
+          "minimum": 0
+        },
+        "tokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "digest"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scenario_id",
+          "scenario_version",
+          "variant_id",
+          "variant_version",
+          "seed"
+        ],
+        "properties": {
+          "scenario_id": {
+            "type": "string"
+          },
+          "scenario_version": {
+            "type": "string"
+          },
+          "variant_id": {
+            "type": "string"
+          },
+          "variant_version": {
+            "type": "string"
+          },
+          "seed": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}
